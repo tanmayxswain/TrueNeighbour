@@ -1,101 +1,221 @@
 import 'package:flutter/material.dart';
-import '../services/auth_service.dart';
+import '../models/request_model.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/request_card.dart';
 import '../theme/app_theme.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
-  final _authService = AuthService();
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  // Mock Data
+  final List<RequestModel> allRequests = [
+    RequestModel(
+      id: '1',
+      title: 'Need help with groceries',
+      description: 'I am unable to go out due to a broken leg. Need someone to pick up some essentials.',
+      category: 'Food',
+      urgency: 'Normal',
+      status: 'OPEN',
+      requesterName: 'Alice',
+    ),
+    RequestModel(
+      id: '2',
+      title: 'Emergency Medical Supplies',
+      description: 'Require immediate help picking up prescribed medicine from the pharmacy.',
+      category: 'Medical',
+      urgency: 'Urgent',
+      status: 'OPEN',
+      requesterName: 'Bob',
+    ),
+    RequestModel(
+      id: '3',
+      title: 'Help moving a couch',
+      description: 'Need one person to help me move a couch to the second floor.',
+      category: 'General',
+      urgency: 'Normal',
+      status: 'OPEN',
+      requesterName: 'Charlie',
+    ),
+  ];
+
+  String selectedCategory = 'All';
+  String selectedUrgency = 'All';
+
+  final List<String> categories = ['All', 'Medical', 'Food', 'General', 'Emergency'];
+  final List<String> urgencies = ['All', 'Normal', 'Urgent', 'Critical'];
 
   @override
   Widget build(BuildContext context) {
-    final user = _authService.currentUser;
-    final displayName = user?.displayName ?? 'Neighbour';
-    final phone = user?.phoneNumber ?? '';
+    // Filter requests
+    final filteredRequests = allRequests.where((req) {
+      final matchCategory = selectedCategory == 'All' || req.category == selectedCategory;
+      final matchUrgency = selectedUrgency == 'All' || req.urgency == selectedUrgency;
+      return matchCategory && matchUrgency;
+    }).toList();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('TrueNeighbour'),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout_rounded),
-            tooltip: 'Log out',
-            onPressed: () async {
-              await _authService.signOut();
-              if (!context.mounted) return;
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/login', (route) => false);
+            icon: const Icon(Icons.account_circle, size: 28),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
             },
           ),
+          const SizedBox(width: 8),
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(28),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // ── Success icon ──
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.teal.withValues(alpha: 0.12),
-                ),
-                child: const Icon(
-                  Icons.check_circle_rounded,
-                  size: 56,
-                  color: AppColors.teal,
-                ),
-              ),
-              const SizedBox(height: 28),
-              Text(
-                'Welcome, $displayName!',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.navyDark,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                phone,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  color: AppColors.teal.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Text(
-                  '✅  You are authenticated!',
+      drawer: const AppDrawer(),
+      body: Column(
+        children: [
+          // Filter Section
+          Container(
+            color: AppColors.surface,
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Filters',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.teal,
+                    color: AppColors.navyDark,
                   ),
                 ),
-              ),
-              const SizedBox(height: 48),
-              const Text(
-                'This is a placeholder home page.\nYour feed and community features\nwill appear here.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                  height: 1.6,
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    // Category Dropdown
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.border),
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColors.background,
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: selectedCategory,
+                            isExpanded: true,
+                            icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary),
+                            items: categories.map((cat) {
+                              return DropdownMenuItem(
+                                value: cat,
+                                child: Text(cat, style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)),
+                              );
+                            }).toList(),
+                            onChanged: (val) {
+                              if (val != null) {
+                                setState(() => selectedCategory = val);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    // Urgency Dropdown
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.border),
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColors.background,
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: selectedUrgency,
+                            isExpanded: true,
+                            icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary),
+                            items: urgencies.map((urg) {
+                              return DropdownMenuItem(
+                                value: urg,
+                                child: Text(urg, style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)),
+                              );
+                            }).toList(),
+                            onChanged: (val) {
+                              if (val != null) {
+                                setState(() => selectedUrgency = val);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          // Divider
+          Container(height: 1, color: AppColors.border),
+          // Feed
+          Expanded(
+            child: filteredRequests.isEmpty
+                ? const Center(
+                    child: Text(
+                      'No requests match the current filters.',
+                      style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: filteredRequests.length,
+                    itemBuilder: (context, index) {
+                      final request = filteredRequests[index];
+                      return RequestCard(
+                        request: request,
+                        onClaim: () {
+                          // Claim action to be implemented
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Claiming ${request.title}...')),
+                          );
+                        },
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
+      floatingActionButton: Container(
+        height: 64,
+        width: 64,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.teal.withValues(alpha: 0.3),
+              blurRadius: 16,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: FloatingActionButton(
+          onPressed: () {
+            // Navigate to Post a Need page later
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Post a Need coming soon!')),
+            );
+          },
+          backgroundColor: AppColors.teal,
+          elevation: 0,
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add, color: Colors.white, size: 36),
         ),
       ),
     );
