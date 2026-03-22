@@ -9,6 +9,14 @@ import 'pages/login_page.dart';
 import 'pages/signup_page.dart';
 import 'pages/otp_verification_page.dart';
 import 'pages/home_page.dart';
+import 'pages/post_need_page.dart';
+import 'pages/specification_safety_page.dart';
+import 'pages/my_claims_page.dart';
+import 'pages/my_requests_page.dart';
+import 'pages/history_page.dart';
+import 'pages/settings_page.dart';
+import 'pages/profile_page.dart';
+import 'pages/merit_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,9 +30,14 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // Check if user is already authenticated
@@ -34,13 +47,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TrueNeighbour',
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.light,
       theme: AppTheme.theme,
       initialRoute: initialRoute,
       routes: {
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupPage(),
         '/otp': (context) => const OtpVerificationPage(),
-        '/home': (context) => HomePage(),
+        '/home': (context) => const HomePage(),
+        '/post-need': (context) => const PostNeedPage(),
+        '/spec-safety': (context) => const SpecificationSafetyPage(),
+        '/my-requests': (context) => const MyRequestsPage(),
+        '/my-claims': (context) => const MyClaimsPage(),
+        '/history': (context) => const HistoryPage(),
+        '/settings': (context) => const SettingsPage(),
+        '/profile': (context) => const ProfilePage(),
+        '/merit': (context) => const MeritPage(),
       },
     );
   }

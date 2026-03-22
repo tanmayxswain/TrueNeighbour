@@ -30,9 +30,11 @@ class AppColors {
 class AppTheme {
   static ThemeData get theme {
     return ThemeData(
+      brightness: Brightness.light,
       useMaterial3: true,
       fontFamily: 'Poppins',
       colorScheme: ColorScheme.fromSeed(
+        brightness: Brightness.light,
         seedColor: AppColors.navy,
         primary: AppColors.navy,
         secondary: AppColors.teal,
@@ -61,7 +63,10 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.teal,
           foregroundColor: Colors.white,
-          minimumSize: const Size(double.infinity, 52),
+          minimumSize: const Size(
+            88,
+            52,
+          ), // Use a finite width instead of infinity
           elevation: 2,
           shadowColor: AppColors.teal.withValues(alpha: 0.4),
           shape: RoundedRectangleBorder(
@@ -134,6 +139,126 @@ class AppTheme {
         }),
         checkColor: WidgetStateProperty.all(Colors.white),
         side: const BorderSide(color: AppColors.navy, width: 2),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+      ),
+    );
+  }
+
+  static ThemeData get darkTheme {
+    final darkNavy = const Color(0xFF0A192F);
+    final darkSurface = const Color(0xFF112240);
+    final textDarkSecondary = Colors.white70;
+
+    return ThemeData(
+      brightness: Brightness.dark,
+      useMaterial3: true,
+      fontFamily: 'Poppins',
+      colorScheme: ColorScheme.fromSeed(
+        brightness: Brightness.dark,
+        seedColor: AppColors.navy,
+        primary: AppColors.tealLight,
+        secondary: AppColors.teal,
+        surface: darkSurface,
+        error: Colors.red.shade400,
+      ),
+      scaffoldBackgroundColor: darkNavy,
+
+      // AppBar
+      appBarTheme: AppBarTheme(
+        backgroundColor: darkSurface,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        titleTextStyle: const TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+          letterSpacing: 0.5,
+        ),
+      ),
+
+      // Elevated Buttons (teal accent)
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.teal,
+          foregroundColor: Colors.white,
+          minimumSize: const Size(
+            88,
+            52,
+          ), // Use a finite width instead of infinity
+          elevation: 2,
+          shadowColor: Colors.black.withValues(alpha: 0.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          textStyle: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1.2,
+          ),
+        ),
+      ),
+
+      // Text Buttons
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.tealLight,
+          textStyle: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+
+      // Input fields
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: darkSurface,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: Colors.grey.shade800, width: 1.5),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: Colors.grey.shade800, width: 1.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: AppColors.teal, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: Colors.red.shade400, width: 1.5),
+        ),
+        hintStyle: TextStyle(
+          color: textDarkSecondary,
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+        ),
+        labelStyle: TextStyle(
+          color: textDarkSecondary,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+
+      // Checkbox
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return AppColors.teal;
+          }
+          return Colors.transparent;
+        }),
+        checkColor: WidgetStateProperty.all(Colors.white),
+        side: const BorderSide(color: AppColors.tealLight, width: 2),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),
     );

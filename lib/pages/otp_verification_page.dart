@@ -219,71 +219,74 @@ class _OtpVerificationPageState extends State<OtpVerificationPage>
                 const SizedBox(height: 40),
 
                 // ── OTP Boxes ──
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(6, (i) {
-                    return Container(
-                      width: 48,
-                      height: 56,
-                      margin: EdgeInsets.only(
-                        left: i == 0 ? 0 : 8,
-                      ),
-                      child: TextFormField(
-                        controller: _otpControllers[i],
-                        focusNode: _focusNodes[i],
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        maxLength: 1,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.navyDark,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(6, (i) {
+                      return Container(
+                        width: 48,
+                        height: 56,
+                        margin: EdgeInsets.only(
+                          left: i == 0 ? 0 : 8,
                         ),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration(
-                          counterText: '',
-                          contentPadding: EdgeInsets.zero,
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: AppColors.border,
-                              width: 1.5,
+                        child: TextFormField(
+                          controller: _otpControllers[i],
+                          focusNode: _focusNodes[i],
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          maxLength: 1,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.navyDark,
+                          ),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          decoration: InputDecoration(
+                            counterText: '',
+                            contentPadding: EdgeInsets.zero,
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppColors.border,
+                                width: 1.5,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppColors.border,
+                                width: 1.5,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppColors.teal,
+                                width: 2,
+                              ),
                             ),
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: AppColors.border,
-                              width: 1.5,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: AppColors.teal,
-                              width: 2,
-                            ),
-                          ),
+                          onChanged: (value) {
+                            if (value.isNotEmpty && i < 5) {
+                              _focusNodes[i + 1].requestFocus();
+                            }
+                            if (value.isEmpty && i > 0) {
+                              _focusNodes[i - 1].requestFocus();
+                            }
+                            // Auto-submit when all 6 digits entered
+                            if (_otpCode.length == 6) {
+                              _verifyOtp();
+                            }
+                          },
                         ),
-                        onChanged: (value) {
-                          if (value.isNotEmpty && i < 5) {
-                            _focusNodes[i + 1].requestFocus();
-                          }
-                          if (value.isEmpty && i > 0) {
-                            _focusNodes[i - 1].requestFocus();
-                          }
-                          // Auto-submit when all 6 digits entered
-                          if (_otpCode.length == 6) {
-                            _verifyOtp();
-                          }
-                        },
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+                  ),
                 ),
 
                 const SizedBox(height: 32),
