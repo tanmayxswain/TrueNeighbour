@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
-import '../theme/theme_provider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -12,13 +11,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool _pushNotifications = true;
   bool _emailNotifications = false;
-  late bool _darkMode;
 
-  @override
-  void initState() {
-    super.initState();
-    _darkMode = themeProvider.isDarkMode;
-  }
 
   @override
   Widget build(BuildContext context) {
