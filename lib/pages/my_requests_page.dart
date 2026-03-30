@@ -142,10 +142,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Requests'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: StreamBuilder<List<RequestModel>>(

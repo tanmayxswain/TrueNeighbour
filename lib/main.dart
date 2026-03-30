@@ -8,7 +8,8 @@ import 'theme/app_theme.dart';
 import 'pages/login_page.dart';
 import 'pages/signup_page.dart';
 import 'pages/otp_verification_page.dart';
-import 'pages/home_page.dart';
+
+import 'pages/main_shell.dart';
 import 'pages/post_need_page.dart';
 import 'pages/specification_safety_page.dart';
 import 'pages/my_claims_page.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupPage(),
         '/otp': (context) => const OtpVerificationPage(),
-        '/home': (context) => const HomePage(),
+        '/home': (context) => const MainShell(),
         '/post-need': (context) => const PostNeedPage(),
         '/spec-safety': (context) => const SpecificationSafetyPage(),
         '/my-requests': (context) => const MyRequestsPage(),

@@ -353,4 +353,48 @@ class FirestoreService {
               };
             }).toList());
   }
+
+  // ═══════════════════════════════════════════
+  // REPORTS
+  // ═══════════════════════════════════════════
+
+  CollectionReference get _reportsCol => _firestore.collection('reports');
+
+  /// Report a user — also deducts merit points and increments reportCount.
+  Future<void> reportUser({
+    required String reportedUserId,
+    required String reason,
+    String? requestId,
+  }) async {
+    if (_uid.isEmpty) return;
+    await _reportsCol.add({
+      'reportedBy': _uid,
+      'reportedUserId': reportedUserId,
+      'reason': reason,
+      'requestId': requestId,
+      'createdAt': Timestamp.now(),
+      'status': 'PENDING_REVIEW',
+    });
+
+    // Deduct merit points and increment report count on reported user
+    if (reportedUserId.isNotEmpty) {
+      await _usersCol.doc(reportedUserId).set({
+        'meritPoints': FieldValue.increment(-25),
+        'reportCount': FieldValue.increment(1),
+      }, SetOptions(merge: true));
+    }
+  }
+
+  /// Get a user's report count.
+  Future<int> getReportCount(String uid) async {
+    if (uid.isEmpty) return 0;
+    try {
+      final snap = await _usersCol.doc(uid).get();
+      if (!snap.exists) return 0;
+      final data = snap.data() as Map<String, dynamic>?;
+      return (data?['reportCount'] as int?) ?? 0;
+    } catch (_) {
+      return 0;
+    }
+  }
 }

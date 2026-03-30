@@ -84,15 +84,17 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: Icon(_editing ? Icons.check : Icons.edit_outlined, size: 22),
             tooltip: _editing ? 'Save' : 'Edit',
             onPressed: _toggleEdit,
+          ),
+          IconButton(
+            icon: const Icon(Icons.history, size: 22),
+            tooltip: 'History',
+            onPressed: () => Navigator.pushNamed(context, '/history'),
           ),
         ],
       ),
@@ -191,6 +193,41 @@ class _ProfilePageState extends State<ProfilePage> {
                 icon: const Icon(Icons.emoji_events_outlined),
                 label: const Text('View Leaderboard & Badges'),
                 style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), side: const BorderSide(color: AppColors.navy), foregroundColor: AppColors.navy),
+              ),
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () async {
+                  final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text('Log Out'),
+                      content: const Text('Are you sure you want to log out?'),
+                      actions: [
+                        TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: const Text('Log Out', style: TextStyle(color: AppColors.error)),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (confirm != true) return;
+                  await FirebaseAuth.instance.signOut();
+                  if (context.mounted) {
+                    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                  }
+                },
+                icon: const Icon(Icons.logout),
+                label: const Text('Log Out'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  side: const BorderSide(color: AppColors.error),
+                  foregroundColor: AppColors.error,
+                ),
               ),
             ),
           ],

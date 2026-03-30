@@ -131,10 +131,24 @@ class _HistoryPageState extends State<HistoryPage> {
               ]),
             ]),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(color: isCompleted ? AppColors.teal : const Color(0xFFDD6B20), borderRadius: BorderRadius.circular(6)),
-            child: Text(isCompleted ? 'Done' : 'Active', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: Colors.white)),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                isCompleted ? Icons.check_circle_outline : Icons.pending_actions,
+                size: 14,
+                color: isCompleted ? AppColors.teal : const Color(0xFFDD6B20),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                isCompleted ? 'Done' : 'Active',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: isCompleted ? AppColors.teal : const Color(0xFFDD6B20),
+                ),
+              ),
+            ],
           ),
         ],
       ),
