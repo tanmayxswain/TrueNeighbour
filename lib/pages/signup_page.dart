@@ -142,16 +142,8 @@ class _SignupPageState extends State<SignupPage>
                       ),
                     ),
 
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Neighbour Profile',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.navy,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 12),
+
                     const Text(
                       'Join your community today',
                       style: TextStyle(

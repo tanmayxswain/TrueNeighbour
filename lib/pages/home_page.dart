@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/firestore_service.dart';
 import '../models/request_model.dart';
-import '../widgets/app_drawer.dart';
+
 import '../widgets/request_card.dart';
 import '../theme/app_theme.dart';
 
@@ -71,23 +71,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TrueNeighbour'),
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () => Scaffold.of(context).openDrawer(),
+        title: ClipOval(
+          child: Image.asset(
+            'assets/images/logo.png',
+            height: 38,
+            width: 38,
+            fit: BoxFit.cover,
           ),
         ),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.account_circle, size: 28),
-            tooltip: 'Profile',
-            onPressed: () => Navigator.pushNamed(context, '/profile'),
+            icon: const Icon(Icons.settings_outlined, size: 24),
+            tooltip: 'Settings',
+            onPressed: () => Navigator.pushNamed(context, '/settings'),
           ),
           const SizedBox(width: 4),
         ],
       ),
-      drawer: const AppDrawer(),
       body: Column(
         children: [
           // ── Filter Bar ──
@@ -215,20 +216,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
-      ),
-      floatingActionButton: Container(
-        height: 64, width: 64,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [BoxShadow(color: AppColors.teal.withValues(alpha: 0.3), blurRadius: 16, offset: const Offset(0, 8))],
-        ),
-        child: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(context, '/post-need'),
-          backgroundColor: AppColors.teal,
-          elevation: 0,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add, color: Colors.white, size: 36),
-        ),
       ),
     );
   }

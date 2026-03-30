@@ -47,10 +47,7 @@ class _MyClaimsPageState extends State<MyClaimsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Claims'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: StreamBuilder<List<RequestModel>>(
         stream: _fs.streamMyClaims(),
