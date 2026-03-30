@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
-import '../theme/theme_provider.dart';
+import 'privacy_policy_page.dart';
+import 'terms_of_service_page.dart';
+import 'faq_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -10,15 +12,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _pushNotifications = true;
   bool _emailNotifications = false;
-  late bool _darkMode;
 
-  @override
-  void initState() {
-    super.initState();
-    _darkMode = themeProvider.isDarkMode;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +30,6 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           // ── Notifications ──
           _buildSectionHeader('Notifications'),
-          _buildSwitchTile(
-            icon: Icons.notifications_active_outlined,
-            title: 'Push Notifications',
-            subtitle: 'Get alerts for new requests nearby',
-            value: _pushNotifications,
-            onChanged: (v) => setState(() => _pushNotifications = v),
-          ),
           _buildSwitchTile(
             icon: Icons.email_outlined,
             title: 'Email Updates',
@@ -60,17 +48,27 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () => _showAboutDialog(context),
           ),
           _buildTapTile(
+            icon: Icons.help_outline,
+            title: 'FAQ',
+            subtitle: 'Frequently asked questions',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FAQPage(),
+                ),
+              );
+            },
+          ),
+          _buildTapTile(
             icon: Icons.privacy_tip_outlined,
             title: 'Privacy Policy',
             subtitle: 'How we handle your data',
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Privacy policy page coming soon'),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PrivacyPolicyPage(),
                 ),
               );
             },
@@ -80,13 +78,10 @@ class _SettingsPageState extends State<SettingsPage> {
             title: 'Terms of Service',
             subtitle: 'Read our terms',
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Terms page coming soon'),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TermsOfServicePage(),
                 ),
               );
             },
