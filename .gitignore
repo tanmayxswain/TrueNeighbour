@@ -13,6 +13,13 @@
 migrate_working_dir/
 
 # IntelliJ related
+# Environment variables
+.env
+lib/firebase_options.dart
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+
 *.iml
 *.ipr
 *.iws
