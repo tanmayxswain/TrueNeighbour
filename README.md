@@ -1,7 +1,7 @@
 # TrueNeighbour
 
-> Unite Locally, Grow Globally
-
+> Your community, your responsibility.
+---
 
 ## About
 
@@ -35,9 +35,9 @@ Requests are classified into one of four aid streams, making it easy for volunte
 | Category | Description |
 |---|---|
 | Medical | Urgent health support, medication pickup, hospital transport |
-| Food | Grocery runs, meal delivery, and supply sourcing |
-| Emergency | Rides, errand runs, and local deliveries |
-| General | Tutoring, home repairs, companionship |
+| Food & Essentials | Grocery runs, meal delivery, and supply sourcing |
+| Transport & Logistics | Rides, errand runs, and local deliveries |
+| General Support / Education | Tutoring, home repairs, companionship |
 
 ### Dynamic Urgency Levels
 Each request is assigned a priority tier to help volunteers triage their attention effectively:
@@ -47,7 +47,7 @@ Each request is assigned a priority tier to help volunteers triage their attenti
 - **Critical** — Immediate response needed
 
 ### Volunteer Claim System
-A single-active-claim policy ensures focused, accountable volunteering. A volunteer must fulfil their current commitment before taking on a new one, preventing request hoarding and ensuring genuine follow-through.
+A single-active-claim policy ensures focused, accountable volunteering. A volunteer must fulfill their current commitment before taking on a new one, preventing request hoarding and ensuring genuine follow-through.
 
 ### Merit & Badge System
 Altruism is encouraged and celebrated through a structured reward framework:
@@ -58,10 +58,10 @@ Altruism is encouraged and celebrated through a structured reward framework:
 
 | Tier | Badge | Description |
 |---|---|---|
-| 1 | Starter | Just getting started |
+| 1 | Newcomer | Just getting started |
 | 2 | Helper | Consistently showing up |
-| 3 | Champion | Trusted, high-impact volunteer |
-| 4 | Legend | Community cornerstone |
+| 3 | Contributor | Trusted, high-impact volunteer |
+| 4 | Champion | Community cornerstone |
 
 ---
 
@@ -69,9 +69,100 @@ Altruism is encouraged and celebrated through a structured reward framework:
 
 **Operational Accountability:** Unlike broad social platforms, TrueNeighbour enforces a strict one-claim-at-a-time limit, ensuring every commitment leads to real, focused help.
 
-**Hyper-Local Focus:** Optimized for neighbourhood-level interactions, reducing the overhead common to larger, generalized volunteer organizations.
+**Hyper-Local Focus:** Optimized for neighborhood-level interactions, reducing the overhead common to larger, generalized volunteer organizations.
 
 **Verifiable Altruism:** The merit system provides a transparent, structured record of community impact, fostering mutual trust and a culture of recognition.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed before proceeding:
+
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) (version 3.10.8 or higher)
+- Dart SDK (included with Flutter)
+- Android Studio or VS Code with the Flutter and Dart extensions
+- Git
+- A Firebase project with Firestore and Auth enabled
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/tanmayxswain/TrueNeighbour.git
+   cd TrueNeighbour
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   flutter pub get
+   ```
+
+3. **Firebase Configuration:**
+
+   This project uses FlutterFire. You will need to add the Firebase config files for your environment:
+   - Android: Place `google-services.json` inside `android/app/`
+   - iOS: Place `GoogleService-Info.plist` inside `ios/Runner/`
+
+   > These files are not included in the repository for security reasons. Reach out to the team if you need access to the Firebase project.
+
+4. **Run the app:**
+   ```bash
+   flutter devices       # Check connected devices
+   flutter run           # Run on default device
+   flutter run -d chrome # Run on browser
+   ```
+
+---
+
+## Project Structure
+
+```
+TrueNeighbour/
+├── android/
+├── ios/
+├── assets/
+│   └── images/
+│       └── logo.png
+├── lib/
+│   ├── models/
+│   │   └── request_model.dart
+│   ├── pages/
+│   │   ├── home_page.dart
+│   │   ├── login_page.dart
+│   │   ├── signup_page.dart
+│   │   ├── otp_verification_page.dart
+│   │   ├── main_shell.dart
+│   │   ├── post_need_page.dart
+│   │   ├── my_requests_page.dart
+│   │   ├── my_claims_page.dart
+│   │   ├── merit_page.dart
+│   │   ├── history_page.dart
+│   │   ├── profile_page.dart
+│   │   ├── settings_page.dart
+│   │   ├── faq_page.dart
+│   │   ├── privacy_policy_page.dart
+│   │   ├── terms_of_service_page.dart
+│   │   └── specification_safety_page.dart
+│   ├── services/
+│   │   ├── auth_service.dart
+│   │   ├── firestore_service.dart
+│   │   └── merit_service.dart
+│   ├── theme/
+│   │   ├── app_theme.dart
+│   │   └── theme_provider.dart
+│   ├── widgets/
+│   │   ├── app_drawer.dart
+│   │   └── request_card.dart
+│   ├── firebase_options.dart
+│   └── main.dart
+├── test/
+├── firestore.rules
+├── firebase.json
+└── pubspec.yaml
+```
 
 ---
 
@@ -109,4 +200,4 @@ Data-driven dashboards for community leads, surfacing local need patterns and vo
 
 ---
 
-*Unite Locally, Grow Globally*
+*Your community, your responsibility.*
